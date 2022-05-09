@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "559824808288",
+    "project_id": "gamerenter-6fa4b",
+    "storage_bucket": "gamerenter-6fa4b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:559824808288:android:36a82dd2806bc5e1ead605",
+        "android_client_info": {
+          "package_name": "com.android.gamerenter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "559824808288-r3k60f34tbmi66kfp29bcepc2bdq1t3d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAgyR1w6MwF5UpQ4qkrfpRiccmjLipvgy8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "559824808288-r3k60f34tbmi66kfp29bcepc2bdq1t3d.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
