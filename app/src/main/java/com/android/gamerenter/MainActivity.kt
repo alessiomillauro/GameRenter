@@ -134,7 +134,8 @@ class MainActivity : AppCompatActivity() {
             .child("${result.id}_image_background")
             .putBytes(res)
         uploadTask.addOnSuccessListener {
-            link = it.metadata?.reference?.downloadUrl.toString()
+            link =
+                "gs://gamerenter-6fa4b.appspot.com/GAMES/${result.id}/${result.id}_image_background"
 
             val upcoming = VideogameModel(
                 result.id,
