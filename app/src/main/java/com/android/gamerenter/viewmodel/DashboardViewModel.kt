@@ -19,4 +19,12 @@ class DashboardViewModel @Inject constructor(
     val upcomingVideogamesLiveData = liveData(Dispatchers.IO) {
         emit(platformRepository.getUpcomingVideogameList())
     }
+
+    val rentedVideogamesLiveData = liveData(Dispatchers.IO) {
+        emit(platformRepository.getRentedVideogameList())
+    }
+
+    val recentSearchVideogamesLiveData = liveData(Dispatchers.IO) {
+        emit(platformRepository.getRecentSearchVideogameList())
+    }
 }
