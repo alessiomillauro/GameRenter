@@ -1,18 +1,29 @@
 package com.android.gamerenter.model
 
 import java.io.Serializable
+import java.util.*
 
-data class VideogameModel(
-    val id: Int? = -1,
-    val name: String? = "",
-    val dateOfRelease: String? = "",
-    val platforms: List<Int>? = emptyList(),
-    val playtime: Int? = -1,
+class VideogameModel(
+    val id: Int,
+    val name: String,
+    val dateOfRelease: String,
+    val platforms: List<Int>,
+    val playtime: Int,
 // TODO aggiornare a company model
-    val companies: List<Any>? = emptyList(),
-    val background_image: String? = "",
-    val poster_image: String? = "",
-    val rating: Float? =-1F,
-    val rating_top: Int? = -1,
-    val genre: List<String>? = emptyList()
-) : Serializable
+    val companies: List<String>,
+    val background_image: String,
+    val poster_image: String,
+    val rating: Float,
+    val rating_top: Int,
+    val genre: List<String>,
+    val overview: String,
+    val images: List<String>,
+    val metascore: Int,
+    val rent_status: Int,
+    val rent_copy_available: Int,
+    val rent_copy_total: Int,
+    val rent_on: Long,
+    val rent_end: Long,
+    val rent_max_period: Int
+) : Serializable {
+}
