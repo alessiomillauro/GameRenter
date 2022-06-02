@@ -1,9 +1,9 @@
 package com.android.gamerenter.di
 
-import com.android.gamerenter.FIRESTORE_COLLECTION_PLATFORM
-import com.android.gamerenter.FIRESTORE_COLLECTION_UPCOMING
-import com.android.gamerenter.GameRenterApplication
+import com.android.gamerenter.*
+import com.android.gamerenter.fragment.DashboardFragment
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -14,6 +14,11 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object PlatformModule {
+
+    @Provides
+    @Singleton
+    fun provideFirebaseStorage() =
+        FirebaseStorage.getInstance()
 
     @Provides
     @Singleton
@@ -31,5 +36,26 @@ object PlatformModule {
     @Named("upcoming_games_collection")
     fun provideUpcomingCollectionReference(rootRef: FirebaseFirestore) = rootRef.collection(
         FIRESTORE_COLLECTION_UPCOMING
+    )
+
+    @Provides
+    @Singleton
+    @Named("recent_search_collection")
+    fun provideRecentSearchCollectionReference(rootRef: FirebaseFirestore) = rootRef.collection(
+        FIRESTORE_COLLECTION_RECENT_SEARCH
+    )
+
+    @Provides
+    @Singleton
+    @Named("all_search_collection")
+    fun provideAllSearchCollectionReference(rootRef: FirebaseFirestore) = rootRef.collection(
+        FIRESTORE_COLLECTION_ALL
+    )
+
+    @Provides
+    @Singleton
+    @Named("rented_games_collection")
+    fun provideRentedCollectionReference(rootRef: FirebaseFirestore) = rootRef.collection(
+        FIRESTORE_COLLECTION_RENTED
     )
 }
