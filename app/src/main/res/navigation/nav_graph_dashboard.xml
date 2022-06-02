@@ -10,5 +10,28 @@
         android:name="com.android.gamerenter.fragment.DashboardFragment"
         android:label="Dashboard"
         tools:layout="@layout/fragment_dashboard">
+
+        <action
+            android:id="@+id/go_to_generic_list"
+            app:destination="@id/genericListFragment" />
+        <action
+            android:id="@+id/go_to_detail_fragment"
+            app:destination="@id/detailVideogameFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/genericListFragment"
+        android:name="com.android.gamerenter.fragment.GenericListFragment"
+        android:label="Generic List"
+        tools:layout="@layout/fragment_generic_list" />
+
+    <fragment
+        android:id="@+id/detailVideogameFragment"
+        android:name="com.android.gamerenter.fragment.VideogameDetailFragment"
+        android:label="Videogame Details"
+        tools:layout="@layout/fragment_videogame_detail">
+        <argument
+            android:name="videogameModel"
+            app:argType="com.android.gamerenter.model.VideogameModel" />
     </fragment>
 </navigation>
