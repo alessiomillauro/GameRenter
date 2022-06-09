@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/admin_flow"
+    app:startDestination="@id/addVideogame">
+
+    <fragment
+        android:id="@+id/addVideogame"
+        android:name="com.android.gamerenter.fragment.AddVideogameFragment"
+        android:label="Add Videogame"
+        tools:layout="@layout/fragment_add_videogame">
+
+        <action
+            android:id="@+id/open_feedback_dialog"
+            app:destination="@id/feedback_add_action" />
+    </fragment>
+
+    <dialog
+        android:id="@+id/feedback_add_action"
+        android:name="com.android.gamerenter.dialog.GeneralDialog"
+        android:label="Confirm"
+        tools:layout="@layout/dialog_general" />
+
+</navigation>
