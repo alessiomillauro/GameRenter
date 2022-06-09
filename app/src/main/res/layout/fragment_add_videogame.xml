@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        android:fitsSystemWindows="true"
+        app:layout_constraintBottom_toTopOf="@id/insert_action"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/add_name_container"
+                style="@style/Widget.Design.TextInputLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="12dp"
+                android:layout_marginTop="16dp"
+                app:endIconMode="clear_text"
+                app:errorEnabled="true"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/add_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Nome videogioco" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/add_overview_container"
+                style="@style/Widget.Design.TextInputLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="12dp"
+                android:layout_marginTop="16dp"
+                app:endIconMode="clear_text"
+                app:errorEnabled="true"
+                app:layout_constraintTop_toBottomOf="@id/add_name_container">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/add_overview"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Trama" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/add_playtime_container"
+                style="@style/Widget.Design.TextInputLayout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="12dp"
+                android:layout_marginTop="16dp"
+                app:endIconMode="clear_text"
+                app:errorEnabled="true"
+                app:layout_constraintEnd_toStartOf="@id/one_third"
+                app:layout_constraintHorizontal_weight="5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/add_overview_container">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/add_playtime"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:digits="0123456789"
+                    android:hint="Ore di gioco"
+                    android:inputType="number" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/release_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:text="Data di uscita"
+                app:layout_constraintEnd_toStartOf="@id/calendar_action"
+                app:layout_constraintStart_toEndOf="@id/one_third"
+                app:layout_constraintTop_toTopOf="@id/calendar_action" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/release_value"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="- - - -"
+                app:layout_constraintBottom_toBottomOf="@+id/calendar_action"
+                app:layout_constraintEnd_toStartOf="@id/calendar_action"
+                app:layout_constraintStart_toStartOf="@id/release_title"
+                app:layout_constraintTop_toBottomOf="@id/release_title" />
+
+
+            <ImageButton
+                android:id="@+id/calendar_action"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="12dp"
+                android:src="@drawable/ic_release_date"
+                app:layout_constraintBottom_toBottomOf="@id/add_playtime_container"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cg_developer"
+                app:layout_constraintTop_toTopOf="@id/add_playtime_container" />
+
+            <LinearLayout
+                android:id="@+id/container_preview"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="24dp"
+                android:background="@drawable/dashed_background"
+                android:gravity="center"
+                app:layout_constraintEnd_toStartOf="@id/camera_action"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/calendar_action">
+
+                <ImageView
+                    android:id="@+id/poster_preview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginVertical="24dp"
+                    android:src="@drawable/ic_preview" />
+            </LinearLayout>
+
+            <ImageButton
+                android:id="@+id/camera_action"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="12dp"
+                android:src="@drawable/ic_camera"
+                app:layout_constraintBottom_toBottomOf="@id/container_preview"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/container_preview" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/title_genre"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="12dp"
+                android:layout_marginTop="16dp"
+                android:text="Genere"
+                app:layout_constraintTop_toBottomOf="@id/container_preview"
+                tools:text="Genere" />
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/cg_genre"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="12dp"
+                android:layout_marginTop="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/title_genre"
+                app:selectionRequired="true"
+                app:singleSelection="false" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/title_platform"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="12dp"
+                android:layout_marginTop="12dp"
+                android:text="Piattaforma"
+                app:layout_constraintTop_toBottomOf="@id/cg_genre"
+                tools:text="Piattaforma" />
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/cg_platforms"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="12dp"
+                android:layout_marginTop="16dp"
+                app:layout_constraintTop_toBottomOf="@id/title_platform"
+                app:selectionRequired="true"
+                app:singleSelection="false" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/title_developer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="12dp"
+                android:layout_marginTop="12dp"
+                android:text="Sviluppatori"
+                app:layout_constraintTop_toBottomOf="@id/cg_platforms"
+                tools:text="Sviluppatore" />
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/cg_developer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="12dp"
+                android:layout_marginTop="16dp"
+
+                app:layout_constraintTop_toBottomOf="@id/title_developer"
+                app:selectionRequired="true"
+                app:singleSelection="false" />
+
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/one_third"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.4" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+
+
+    <LinearLayout
+        android:id="@+id/insert_action"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="8dp"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <Button
+            android:id="@+id/insert"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="6dp"
+            android:layout_weight="0.6"
+            android:enabled="false"
+            tools:text="Inserisci" />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
