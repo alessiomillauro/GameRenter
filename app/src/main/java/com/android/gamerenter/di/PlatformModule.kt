@@ -58,4 +58,18 @@ object PlatformModule {
     fun provideRentedCollectionReference(rootRef: FirebaseFirestore) = rootRef.collection(
         FIRESTORE_COLLECTION_RENTED
     )
+
+    @Provides
+    @Singleton
+    @Named("genre_games_collection")
+    fun provideGenreCollectionReference(rootRef: FirebaseFirestore) = rootRef.collection(
+        FIRESTORE_COLLECTION_GENRE
+    )
+
+    @Provides
+    @Singleton
+    @Named("publisher_games_collection")
+    fun providePublisherCollectionReference(rootRef: FirebaseFirestore) = rootRef.collection(
+        FIRESTORE_COLLECTION_PUBLISHER
+    )
 }
