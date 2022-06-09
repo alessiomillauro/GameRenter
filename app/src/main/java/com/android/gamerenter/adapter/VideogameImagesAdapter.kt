@@ -11,7 +11,9 @@ import com.android.gamerenter.R
 import com.bumptech.glide.Glide
 import com.google.firebase.storage.FirebaseStorage
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class VideogameImagesAdapter @Inject constructor(private val storageRef: FirebaseStorage) :
     ListAdapter<String, VideogameImagesAdapter.VideogameImagesViewHolder>(
         DIFF_VIDEOGAME_IMAGE_CALLBACK()
