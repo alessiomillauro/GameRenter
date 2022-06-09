@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">GameRenter</string>
+
+    <string name="bottom_nav_home">Home</string>
+    <string name="bottom_nav_rent">Rent</string>
+    <string name="rented_title">I tuoi noleggi</string>
+    <string name="view_more">Mostra tutto</string>
+    <string name="recent_search_title">Cronologia ricerca</string>
+    <string name="upcoming_title">In arrivo</string>
+    <string name="no_data_available">Nessun dato disponibile</string>
+    <string name="average_playtime">Media ore gioco : %S</string>
+    <string name="rented_total_title">Risultati trovati: %d</string>
+    <string name="rented_order_by">Ordina per %S</string>
+    <string name="dialog_admin_title">Questa funzionalità è riservata ad un utente ADMIN</string>
+    <string name="dialog_admin_subtitle">Digita nel box sottostante il codice per accedere con il ruolo di ADMIN</string>
+    <string name="check_admin">VERIFICA</string>
+    <string name="cronology">"Cronologia ricerche: "</string>
+    <string name="insert_valid_name">Digitare un nome valido!</string>
+    <string name="search_action">Avvia Ricerca</string>
+    <string name="result_search">Risultati trovati: %d</string>
+    <string name="rent_action_title">NOLEGGIA</string>
+</resources>
