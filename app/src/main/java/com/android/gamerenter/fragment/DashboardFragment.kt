@@ -1,5 +1,6 @@
 package com.android.gamerenter.fragment
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.*
 import androidx.core.os.bundleOf
@@ -13,8 +14,11 @@ import androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.android.gamerenter.R
+import com.android.gamerenter.activity.AdminFlowActivity
 import com.android.gamerenter.adapter.UpcomingVideogameAdapter
 import com.android.gamerenter.adapter.GenericVideogameAdapter
+import com.android.gamerenter.adapter.RentedVideogamesAdapter
+import com.android.gamerenter.dialog.AdminCheckDialog
 import com.android.gamerenter.model.VideogameModel
 import com.android.gamerenter.viewmodel.DashboardViewModel
 import com.google.android.material.textview.MaterialTextView
@@ -31,12 +35,21 @@ class DashboardFragment : Fragment() {
     private lateinit var rvUpcomingVideogames: RecyclerView
 
     @Inject
-    lateinit var upcomingVideogamesAdapter: UpcomingVideogameAdapter
+    lateinit var rentedVideogamesAdapter: RentedVideogamesAdapter
 
     @Inject
-    lateinit var videogameAdapter: GenericVideogameAdapter
+    lateinit var recentSearchAdapter: GenericVideogameAdapter
+
+    @Inject
+    lateinit var upcomingVideogamesAdapter: UpcomingVideogameAdapter
 
     private val dashboardViewModel: DashboardViewModel by viewModels()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        setHasOptionsMenu(true)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -55,38 +68,65 @@ class DashboardFragment : Fragment() {
         mtUpcomingViewMore = view.findViewById(R.id.upcoming_more)
         rvUpcomingVideogames = view.findViewById(R.id.upcoming_list)
 
-        mtRecentSearchViewMore.setOnClickListener { openGenericList() }
-        mtUpcomingViewMore.setOnClickListener { openGenericList() }
+        mtRecentSearchViewMore.setOnClickListener { openGenericList(false) }
+        mtUpcomingViewMore.setOnClickListener { openGenericList(true) }
 
         dashboardViewModel.rentedVideogamesLiveData.observe(
             viewLifecycleOwner
         ) {
-            videogameAdapter.submitList(it)
-            videogameAdapter.setOnItemListClickListener { videogame ->
-                findNavController().navigate(
-                    R.id.detailVideogameFragment,
-                    VideogameDetailFragmentArgs(videogame).toBundle()
-                )
+            rentedVideogamesAdapter.apply {
+                submitList(it)
+
+                setOnItemListClickListener { videogame ->
+                    dashboardViewModel.addItemInRecentSearch(videogame)
+                    findNavController().navigate(
+                        R.id.detailVideogameFragment,
+                        VideogameDetailFragmentArgs(videogame).toBundle()
+                    )
+                }
             }
             rvRentedVideogames.apply {
                 val pagerSnapHelper = PagerSnapHelper()
 
-                adapter = videogameAdapter
+                adapter = rentedVideogamesAdapter
                 layoutManager = LinearLayoutManager(context, HORIZONTAL, false)
                 pagerSnapHelper.attachToRecyclerView(this)
             }
         }
 
-        dashboardViewModel.recentSearchVideogamesLiveData.observe(viewLifecycleOwner, Observer {
-            videogameAdapter.submitList(it)
+        dashboardViewModel.getRecentSearchVideogameList()
+        dashboardViewModel.recentSearchVideogamesLiveData.observe(viewLifecycleOwner) {
+            recentSearchAdapter.apply {
+                submitList(it)
+                setOnItemListClickListener { videogameModel ->
+                    findNavController().navigate(
+                        R.id.detailVideogameFragment,
+                        VideogameDetailFragmentArgs(videogameModel).toBundle()
+                    )
+                }
+                setOnItemRemoveClickListener { videogameModel ->
+                    dashboardViewModel.removeRecentSearchItem(
+                        videogameModel.id,
+                        object : OnRemoveItem {
+                            override fun onSuccessRemove() {
+                            }
+
+                            override fun onFailureRemove() {
+                            }
+                        })
+
+                }
+            }
             rvRecentSearchVideogames.apply {
                 val pagerSnapHelper = PagerSnapHelper()
 
-                adapter = videogameAdapter
+                adapter = recentSearchAdapter
                 layoutManager = LinearLayoutManager(context, HORIZONTAL, false)
+                onFlingListener = null;
                 pagerSnapHelper.attachToRecyclerView(this)
             }
-        })
+        }
+
 
         dashboardViewModel.upcomingVideogamesLiveData.observe(
             viewLifecycleOwner
@@ -101,9 +141,9 @@ class DashboardFragment : Fragment() {
             }
         }
 
-        dashboardViewModel.platformLiveData.observe(viewLifecycleOwner, Observer {
+        dashboardViewModel.platformLiveData.observe(viewLifecycleOwner) {
             upcomingVideogamesAdapter.updatePlatformList(it)
-        })
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -111,9 +151,35 @@ class DashboardFragment : Fragment() {
         super.onCreateOptionsMenu(menu, inflater)
     }
 
-    private fun openGenericList() {
-        //val destination = DashboardFragmentDirections.openGenericList()
-        //val navDirection = Directions
-        findNavController().navigate(R.id.genericListFragment)
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.add -> AdminCheckDialog(
+                resources.getString(R.string.dialog_admin_title),
+                resources.getString(R.string.dialog_admin_subtitle),
+                object : AdminCheckDialog.OnCheckAdmin {
+                    override fun onCheckAdmin(value: String) {
+                        val valid = dashboardViewModel.checkAdminCode(value)
+                        if (valid) {
+                            startActivity(Intent(context, AdminFlowActivity::class.java))
+                        } else {
+                            // TODO show error dialog
+                        }
+                    }
+                }).show(parentFragmentManager, "")
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    private fun openGenericList(isComingVideogamesRequest: Boolean) {
+        findNavController().navigate(
+            R.id.genericListFragment,
+            GenericListFragmentArgs(isComingVideogamesRequest).toBundle()
+        )
+    }
+
+
+    interface OnRemoveItem {
+        fun onSuccessRemove()
+        fun onFailureRemove()
     }
 }

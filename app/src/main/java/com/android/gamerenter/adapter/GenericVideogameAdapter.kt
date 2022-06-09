@@ -3,12 +3,12 @@ package com.android.gamerenter.adapter
 import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.INVISIBLE
+import android.view.View.*
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.ProgressBar
+import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.android.gamerenter.R
 import com.android.gamerenter.model.VideogameModel
@@ -27,24 +27,44 @@ import javax.inject.Singleton
 class GenericVideogameAdapter @Inject constructor(
     private val storageRef: FirebaseStorage
 ) :
-    ListAdapter<VideogameModel, GenericVideogameAdapter.VideogameViewHolder>(
-        DIFF_VIDEOGAME_CALLBACK()
-    ) {
+    RecyclerView.Adapter<GenericVideogameAdapter.VideogameViewHolder>() {
+
+    private var videogames: List<VideogameModel> = ArrayList()
 
     private var onItemListClickListener: ((VideogameModel) -> Unit)? = null
     fun setOnItemListClickListener(listener: (VideogameModel) -> Unit) {
         onItemListClickListener = listener
     }
 
+    private var onItemRemoveClickListener: ((VideogameModel) -> Unit)? = null
+    fun setOnItemRemoveClickListener(listener: (VideogameModel) -> Unit) {
+        onItemRemoveClickListener = listener
+    }
+
+    val DIFF_VIDEOGAME_CALLBACK = object : DiffUtil.ItemCallback<VideogameModel>() {
+        override fun areItemsTheSame(oldItem: VideogameModel, newItem: VideogameModel): Boolean {
+            return oldItem.id == newItem.id
+        }
+
+        override fun areContentsTheSame(oldItem: VideogameModel, newItem: VideogameModel): Boolean {
+            return oldItem.equals(newItem)
+        }
+    }
+    private val differ = AsyncListDiffer(this, DIFF_VIDEOGAME_CALLBACK)
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VideogameViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
-        val view = layoutInflater.inflate(R.layout.adapter_videogame_generic, parent, false)
+        val view = layoutInflater.inflate(R.layout.adapter_search_recent, parent, false)
         return VideogameViewHolder(view)
     }
 
+    override fun getItemCount(): Int {
+        return differ.currentList.size
+    }
+
     override fun onBindViewHolder(holder: VideogameViewHolder, position: Int) {
-        val mostPopularResult = getItem(position)
-        holder.bind(mostPopularResult)
+        val item = differ.currentList[position]
+        holder.bind(item, position)
     }
 
     fun loadImage(
@@ -84,17 +104,31 @@ class GenericVideogameAdapter @Inject constructor(
             .into(img)
     }
 
+    fun submitList(videogames: List<VideogameModel>) {
+        this.videogames = videogames
+        differ.submitList(videogames)
+    }
+
     inner class VideogameViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         val img = itemView.findViewById<ImageView>(R.id.videogame_image_background)
         val progress = itemView.findViewById<ProgressBar>(R.id.progress)
         val title = itemView.findViewById<MaterialTextView>(R.id.videogame_title)
+        val remove = itemView.findViewById<ImageView>(R.id.remove_action)
 
-        fun bind(videogameModel: VideogameModel) {
+        fun bind(videogameModel: VideogameModel, position: Int) {
 
             itemView.setOnClickListener {
                 onItemListClickListener?.let {
                     it(videogameModel)
+                }
+            }
+
+            remove.setOnClickListener {
+                onItemRemoveClickListener?.let {
+                    it(videogameModel)
+                    videogames.toMutableList().removeAt(position)
+                    notifyItemRemoved(position)
                 }
             }
 
@@ -114,21 +148,5 @@ class GenericVideogameAdapter @Inject constructor(
 
             title.text = videogameModel.name
         }
-    }
-}
-
-class DIFF_VIDEOGAME_CALLBACK : DiffUtil.ItemCallback<VideogameModel>() {
-    override fun areItemsTheSame(
-        oldItem: VideogameModel,
-        newItem: VideogameModel
-    ): Boolean {
-        return oldItem == newItem
-    }
-
-    override fun areContentsTheSame(
-        oldItem: VideogameModel,
-        newItem: VideogameModel
-    ): Boolean {
-        return oldItem.id == newItem.id
     }
 }
