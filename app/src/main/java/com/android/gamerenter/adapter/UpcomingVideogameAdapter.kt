@@ -3,6 +3,7 @@ package com.android.gamerenter.adapter
 import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
 import android.view.View.INVISIBLE
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -131,11 +132,13 @@ class UpcomingVideogameAdapter @Inject constructor(private val storageRef: Fireb
                                     itemView,
                                     it.result.toString(),
                                     progress = progress,
-                                    img = platform_logo_1
+                                    img = platform_logo_1,
+                                    placeholder = R.drawable.ic_placeholder_console
                                 )
                             }
-                            platform_logo_2.visibility = INVISIBLE
-                            platform_logo_3.visibility = INVISIBLE
+                            platform_logo_2.visibility = GONE
+                            platform_logo_3.visibility = GONE
+                            platform_view_more.visibility = GONE
                         }
                         2 -> {
                             val ref1 =
@@ -145,7 +148,8 @@ class UpcomingVideogameAdapter @Inject constructor(private val storageRef: Fireb
                                     itemView,
                                     it.result.toString(),
                                     img = platform_logo_1,
-                                    progress = progress
+                                    progress = progress,
+                                    placeholder = R.drawable.ic_placeholder_console
                                 )
                             }
                             val platftormIcon1 = getPlatformIcon(videogameModel.platforms[1])
@@ -157,11 +161,13 @@ class UpcomingVideogameAdapter @Inject constructor(private val storageRef: Fireb
                                         itemView,
                                         it.result.toString(),
                                         platform_logo_2,
-                                        progress = progress
+                                        progress = progress,
+                                        placeholder = R.drawable.ic_placeholder_console
                                     )
                                 }
                             }
-                            platform_logo_3.visibility = INVISIBLE
+                            platform_logo_3.visibility = GONE
+                            platform_view_more.visibility = GONE
 
                         }
                         3 -> {
@@ -172,7 +178,8 @@ class UpcomingVideogameAdapter @Inject constructor(private val storageRef: Fireb
                                     itemView,
                                     it.result.toString(),
                                     platform_logo_1,
-                                    progress = progress
+                                    progress = progress,
+                                    placeholder = R.drawable.ic_placeholder_console
                                 )
                             }
                             if (videogameModel.platforms[1] != null) {
@@ -183,7 +190,8 @@ class UpcomingVideogameAdapter @Inject constructor(private val storageRef: Fireb
                                         itemView,
                                         it.result.toString(),
                                         platform_logo_2,
-                                        progress = progress
+                                        progress = progress,
+                                        placeholder = R.drawable.ic_placeholder_console
                                     )
                                 }
                             }
@@ -195,7 +203,8 @@ class UpcomingVideogameAdapter @Inject constructor(private val storageRef: Fireb
                                         itemView,
                                         it.result.toString(),
                                         platform_logo_1,
-                                        progress = progress
+                                        progress = progress,
+                                        placeholder = R.drawable.ic_placeholder_console
                                     )
                                 }
                             }
@@ -204,7 +213,11 @@ class UpcomingVideogameAdapter @Inject constructor(private val storageRef: Fireb
                 }
             }
 
-            //metascoreValue.text = videogameModel.metascore.toString()
+            metascoreValue.text = if (videogameModel.metascore.toString().isNullOrBlank()) {
+                " - "
+            } else {
+                videogameModel.metascore.toString()
+            }
             title.text = videogameModel.name
         }
     }
