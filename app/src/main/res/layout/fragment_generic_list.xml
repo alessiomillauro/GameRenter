@@ -6,10 +6,13 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/generic_list"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="match_parent"
+        android:layout_marginHorizontal="12dp"
         android:orientation="vertical"
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:spanCount="2" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
